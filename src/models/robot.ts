@@ -2,17 +2,22 @@ import CsvControllable from "../behaviors/csv_controllable";
 
 export default class Robot implements CsvControllable {
   name: string;
+  clientName: string;
 
   constructor(name: string) {
     this.name = name;
+    this.clientName = "";
   }
 
   greeting() {
-    console.log("こんにちは、私はRobokoです。あなたの名前はなんですか？");
+    console.log(
+      "こんにちは、私は%sです。あなたの名前はなんですか？",
+      this.name
+    );
   }
 
-  askFavoriteRestaurant() {
-    console.log("Junさん。ありがとうございました。");
+  farewell() {
+    console.log("%sさん。ありがとうございました。", this.clientName);
     console.log("良い一日を!さようなら。");
   }
 
