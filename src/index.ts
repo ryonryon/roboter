@@ -1,5 +1,9 @@
-function hello(name: string): string {
-  return `Hello, ${name}!`;
+import Robot from "./models/robot";
+
+function main() {
+  const robot = new Robot("roboko");
+
+  robot.greeting();
 }
 
-console.log(hello("ts-node"));
+main();
