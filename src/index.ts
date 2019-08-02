@@ -15,13 +15,15 @@ function main() {
   );
 
   const restaurantListBloc: RestaurantListBloc = restaurantListBlocFactory.create();
+
   const robot = new Robot("Roboko", restaurantListBloc);
 
+  startApp(robot);
+}
+
+function startApp(robot: Robot) {
   robot.greeting();
-  robot.clientName = readline.question();
-
   robot.suggestRestaurant();
-
   robot.askFavoriteRestaurant();
   robot.farewell();
 }

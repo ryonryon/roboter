@@ -1,8 +1,8 @@
 import readline from "readline-sync";
-import Restaurant from "../models/restaurant";
 import { RestaurantListBloc } from "../bloc/restaurant_list_bloc";
+import UserDataGettable from "../behaviors/user_input_gettable";
 
-export default class Robot {
+export default class Robot implements UserDataGettable {
   name: string;
   clientName: string;
   restaurantListBloc: RestaurantListBloc;
@@ -14,9 +14,8 @@ export default class Robot {
   }
 
   greeting() {
-    console.log(
-      "こんにちは、私は%sです。あなたの名前はなんですか？",
-      this.name
+    this.clientName = this.getUserInput(
+      "こんにちは、私は" + this.name + "です。あなたの名前はなんですか？"
     );
   }
 
@@ -34,5 +33,9 @@ export default class Robot {
   farewell() {
     console.log("%sさん。ありがとうございました。", this.clientName);
     console.log("良い一日を!さようなら。");
+  }
+
+  getUserInput(prompt: string): string {
+    return readline.question(prompt);
   }
 }
