@@ -10,6 +10,9 @@ import RestaurantListAddBlocFactory, {
 import RestaurantListWriteBlocFactory, {
   RestaurantListWriteBloc
 } from "./bloc/restaurant_list_write_bloc";
+import RestaurantCountUpBlocFactory, {
+  RestaurantCountUpBloc
+} from "./bloc/restaurant_count_up_bloc";
 
 function main() {
   const csvRestaurantRepository: CsvRestaurantRepository = new CsvRestaurantRepository(
@@ -28,17 +31,24 @@ function main() {
     csvRestaurantRepository
   );
 
+  const restaurantCountUpBlocFactory: RestaurantCountUpBlocFactory = new RestaurantCountUpBlocFactory(
+    csvRestaurantRepository
+  );
+
   const restaurantListBloc: RestaurantListBloc = restaurantListBlocFactory.create();
 
   const restaurantListAddBloc: RestaurantListAddBloc = restaurantListAddBlocFactory.create();
 
   const restaurantListWriteBloc: RestaurantListWriteBloc = restaurantListWriteBlocFactory.create();
 
+  const restaurantCountUpBloc: RestaurantCountUpBloc = restaurantCountUpBlocFactory.create();
+
   const robot = new Robot(
     "Roboko",
     restaurantListBloc,
     restaurantListAddBloc,
-    restaurantListWriteBloc
+    restaurantListWriteBloc,
+    restaurantCountUpBloc
   );
 
   startApp(robot);

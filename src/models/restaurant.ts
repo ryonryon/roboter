@@ -2,8 +2,8 @@ export default class Restaurant {
   public name: string;
   public voteCount: number;
 
-  constructor(name: string) {
+  constructor(name: string, voteCount: number) {
     this.name = name;
-    this.voteCount = 1;
+    this.voteCount = voteCount;
   }
 }

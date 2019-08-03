@@ -3,6 +3,7 @@ import RestaurantListWritable from "../behaviors/restaurant_list_writable";
 import RestaurantListGettable from "../behaviors/restaurant_list_gettable";
 import RestaurantListShowable from "../behaviors/restaurant_list_showable";
 import RestaurantListAddable from "../behaviors/restaurant_list_addable";
+import RestaurantCountUppable from "../behaviors/restaurant_count_uppable";
 import Restaurant from "../models/restaurant";
 
 export default class CsvRestaurantRepository
@@ -10,7 +11,8 @@ export default class CsvRestaurantRepository
     RestaurantListGettable,
     RestaurantListShowable,
     RestaurantListWritable,
-    RestaurantListAddable {
+    RestaurantListAddable,
+    RestaurantCountUppable {
   constructor(public url: string) {
     this._url = url;
     this._restaurantList = this.getRestaurantList();
@@ -25,7 +27,8 @@ export default class CsvRestaurantRepository
     }
     let content = fs.readFileSync(this._url, "utf-8");
     let restaurants = content.split("\n").map(function(line) {
-      return new Restaurant(line);
+      let restaurantInfo = line.split(",");
+      return new Restaurant(restaurantInfo[0], Number(restaurantInfo[1]));
     });
 
     return restaurants;
@@ -40,15 +43,27 @@ export default class CsvRestaurantRepository
     }
 
     let data: string = "";
-    this._restaurantList.forEach(restaurant => {
-      data += restaurant.name + "," + restaurant.voteCount + "\n";
-    });
+    for (let i = 0; i < this._restaurantList.length; i++) {
+      data +=
+        i + 1 == this._restaurantList.length
+          ? this._restaurantList[i].name +
+            "," +
+            this._restaurantList[i].voteCount
+          : this._restaurantList[i].name +
+            "," +
+            this._restaurantList[i].voteCount +
+            "\n";
+    }
 
     fs.writeFileSync(this._url, data, "utf-8");
   }
 
   addRestaurantList(restaurant: Restaurant): void {
     this._restaurantList.push(restaurant);
+  }
+
+  countUpRestaurant(restaurantIndex: number): void {
+    this._restaurantList[restaurantIndex].voteCount += 1;
   }
 
   private isFileExist(url: string): boolean {
